@@ -1,0 +1,1 @@
+#### This is a simple CRUD app for ITI-Django course Day 2

@@ -1,0 +1,89 @@
+{%extends 'parent.html' %}
+{%block Title%}
+Home Page
+{%endblock%}
+{%block loged%}<span> {{username}}</span><a class="nav-link text-warning" href="{%url 'welcomepage' %}">Logout</a>{%endblock%}
+{%block Content%}
+<div id="main" class="container py-5 my-5">
+    <div class="d-flex m-5">
+        <nav class="nav flex-column ">
+          <a class="nav-link  m-4 btn btn-outline-warning text-dark" aria-current="page" href="?mode=insert">Insert</a>
+          <a class="nav-link mx-4 btn btn-outline-warning text-dark" href="?mode=selectby">Search</a>
+    </nav>
+    <div id="'view" class="container">
+        <div class="container">
+            {%if mode == 'selectby' %}
+                          {{mode}}
+        <form  action='' method="post">
+            {%csrf_token%}
+            <div class="form-control">
+                <label for="query"></label>
+                <input type="text" name="query" value="" placeholder="Insert a name" />
+                <input type="hidden" name="mode" value={{mode}} hidden>
+                <input type="submit" value="Search" class="btn btn-warning btn-sm m-3">
+            </div>
+        </form>
+        {{msg}}
+            {%elif mode == 'update' %}
+                          {{mode}}
+        <form  action='' method="post">
+            {%csrf_token%}
+            <div class="form-control">
+                <label for="fname"></label>
+                <input type="text" name="fname" value={{fname}} placeholder="Insert first name" />
+                 <label for="lname"></label>
+                <input type="text" name="lname" value={{lname}} placeholder="Insert last name" />
+                <input type="hidden" name="mode" value={{mode}} hidden>
+                <input type="submit" value="Update" class="btn btn-warning btn-sm m-3">
+            </div>
+        </form>
+        {{msg}}
+            {%else %}
+                        {{mode}}
+        <form  action='' method="post">
+            {%csrf_token%}
+            <div class="form-control">
+                <label for="fname"></label>
+                <input type="text" name="fname" value="" placeholder="Insert first name" />
+                 <label for="lname"></label>
+                <input type="text" name="lname" value="" placeholder="Insert last name" />
+                <input type="hidden" name="mode" value={{mode}} hidden>
+                <input type="submit" value="Add" class="btn btn-warning btn-sm m-3">
+            </div>
+        </form>
+        {{msg}}
+            {%endif %}
+
+        </div>
+        <div>
+           <table class="table table-light shadow">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">First Name</th>
+        <th scope="col">LastName</th>
+      <th scope="col" >Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {%for  row in list%}
+    <tr>
+      <td>{{row.id}}</td>
+      <td>{{row.fname}}</td>
+         <td>{{row.lname}}</td>
+      <td>
+          <a class="btn btn-outline-warning btn-sm"  href="{%url 'DeletePage' stid=row.id %}"  >Delete</a>
+          <a class="btn btn-outline-warning btn-sm"  href="{%url 'UpdatePage' sid=row.id %}">Update</a>
+      </td>
+    </tr>
+  {%endfor%}
+
+  </tbody>
+</table>
+        </div>
+    </div>
+    </div>
+
+</div>
+{%endblock%}

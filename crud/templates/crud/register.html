@@ -1,0 +1,31 @@
+{%extends 'parent.html' %}
+{%block Title%}
+Register Page
+{%endblock%}
+{%block Content%}
+<h1 class="text-center text-warning my-3">Register</h1>
+ <div class="d-flex justify-content-center mx-5 p-5 " >
+    <form  action='' method="post" style="width:50%;" class="container mx-5 ">
+            {%csrf_token%}
+            <div class="mb-3">
+                <label for="username" class="form-label">User Name</label>
+                <input class="form-control" type="text" name="username" value="" placeholder="User Name" />
+            </div>
+     <div class="mb-3">
+         <label for="email" class="form-label">Email</label>
+                <input class="form-control" type="email" name="email" value="" placeholder="Email" />
+     </div>
+     <div class="mb-3">
+         <label for="password" class="form-label">Password</label>
+                <input class="form-control" type="password" name="password" value="" placeholder="Password" />
+     </div>
+     <div class=" mb-3">
+         <label for="cpassword" class="form-label">Confirm Password</label>
+                <input class="form-control" type="password" name="cpassword" value="" placeholder="Confirm Password" />
+         {{errormsg}}
+     </div>
+     <a href="login" class="text-warning">Aleardy have an account? login</a>
+        <input type="submit" value="Register" class="btn btn-warning  my-3 float-end">
+        </form>
+        </div>
+{%endblock%}
