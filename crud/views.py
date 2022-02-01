@@ -2,12 +2,14 @@ import datetime
 
 from django.shortcuts import render, redirect
 from .models import Students, Myusers
-from django.http import HttpRequest
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login,logout
 
 # Create your views here.
 def homepage(request):
-    authenuser=Myusers.objects.filter(is_login=True)
-    if len(authenuser ) == 1:
+    loggeduser=Myusers.objects.filter(is_login=True)
+    if len(loggeduser ) != 0 and request.session.has_key('username'):
+        authenuser = Myusers.objects.filter(username=request.session['username'])
         context = {'mode': '', 'msg': '', 'list': Students.objects.all(), 'username': authenuser[0].username}
         if request.method == 'GET':
             if request.GET == {}:
@@ -54,14 +56,17 @@ def updateStudent(request, sid):
 
 
 def loginpage(request):
-    context={}
+    context = {}
     if request.method == 'GET':
         return render(request, 'crud/login.html')
     else:
         user = Myusers.objects.filter(email=request.POST['email'])
+        authuser = authenticate(username=user[0].username,password=user[0].password)
         if user:
-            if user[0].password == request.POST['password']:
+            if user[0].password == request.POST['password'] and authuser is not None:
                 user.update(is_login=True)
+                request.session['username'] = user[0].username
+                login(request, authuser)
                 return redirect(homepage)
             else:
                 context['errormsg']="Incorrect password"
@@ -78,6 +83,7 @@ def registerpage(request):
     else:
         if request.POST['password'] == request.POST['cpassword']:
             Myusers.objects.create(username=request.POST['username'], email=request.POST['email'], password=request.POST['password'], join_date=datetime.date.today(), login_time=datetime.datetime.now().time())
+            User.objects.create_user(username=request.POST['username'], email=request.POST['email'], password=request.POST['password'], is_staff=True)
         else:
             context['errormsg']='Confirm password and password don not match'
         return render(request,'crud/register.html',context)
@@ -85,5 +91,7 @@ def registerpage(request):
 
 
 def welcomepage(request):
+    request.session.clear()
+    logout(request)
     Myusers.objects.update(is_login=False)
     return render(request, 'crud/welcome.html')
