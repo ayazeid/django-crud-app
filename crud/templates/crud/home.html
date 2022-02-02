@@ -2,6 +2,17 @@
 {%block Title%}
 Home Page
 {%endblock%}
+{%block navcontent%}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="home">Students</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'Trackshomepage' %}">Tracks</a>
+        </li>
+      </ul>
+{%endblock%}
 {%block loged%}<span> {{username}}</span><a class="nav-link text-warning" href="{%url 'welcomepage' %}">Logout</a>{%endblock%}
 {%block Content%}
 <div id="main" class="container py-5 my-5">
@@ -11,12 +22,14 @@ Home Page
           <a class="nav-link mx-4 btn btn-outline-warning text-dark" href="?mode=selectby">Search</a>
     </nav>
     <div id="'view" class="container">
-        <div class="container">
+        <h1 class="text-warning ">{{mode|title}}</h1>
+        <div class="container shadow ">
+
             {%if mode == 'selectby' %}
-                          {{mode}}
+<!--            search form-->
         <form  action='' method="post">
             {%csrf_token%}
-            <div class="form-control">
+            <div class="form-control border-0  p-3">
                 <label for="query"></label>
                 <input type="text" name="query" value="" placeholder="Insert a name" />
                 <input type="hidden" name="mode" value={{mode}} hidden>
@@ -25,28 +38,24 @@ Home Page
         </form>
         {{msg}}
             {%elif mode == 'update' %}
-                          {{mode}}
+<!--            update form-->
+
         <form  action='' method="post">
             {%csrf_token%}
-            <div class="form-control">
-                <label for="fname"></label>
-                <input type="text" name="fname" value={{fname}} placeholder="Insert first name" />
-                 <label for="lname"></label>
-                <input type="text" name="lname" value={{lname}} placeholder="Insert last name" />
+            <div class="form-control border-0  p-3">
+                 {{updatestudent.as_p}}
                 <input type="hidden" name="mode" value={{mode}} hidden>
                 <input type="submit" value="Update" class="btn btn-warning btn-sm m-3">
             </div>
         </form>
         {{msg}}
             {%else %}
-                        {{mode}}
+<!--            insert form-->
+
         <form  action='' method="post">
             {%csrf_token%}
-            <div class="form-control">
-                <label for="fname"></label>
-                <input type="text" name="fname" value="" placeholder="Insert first name" />
-                 <label for="lname"></label>
-                <input type="text" name="lname" value="" placeholder="Insert last name" />
+            <div class="form-control border-0  p-3">
+                {{insertstudent.as_p}}
                 <input type="hidden" name="mode" value={{mode}} hidden>
                 <input type="submit" value="Add" class="btn btn-warning btn-sm m-3">
             </div>
@@ -61,7 +70,8 @@ Home Page
     <tr>
       <th scope="col">ID</th>
       <th scope="col">First Name</th>
-        <th scope="col">LastName</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Track</th>
       <th scope="col" >Actions</th>
     </tr>
   </thead>
@@ -72,6 +82,7 @@ Home Page
       <td>{{row.id}}</td>
       <td>{{row.fname}}</td>
          <td>{{row.lname}}</td>
+        <td>{{row.trackid.name}}</td>
       <td>
           <a class="btn btn-outline-warning btn-sm"  href="{%url 'DeletePage' stid=row.id %}"  >Delete</a>
           <a class="btn btn-outline-warning btn-sm"  href="{%url 'UpdatePage' sid=row.id %}">Update</a>

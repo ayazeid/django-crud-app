@@ -1,0 +1,72 @@
+{%extends 'parent.html' %}
+{%block Title%}
+Tracks Page
+{%endblock%}
+{%block navcontent%}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="home">Students</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'Trackshomepage' %}">Tracks</a>
+        </li>
+      </ul>
+    </div>
+{%endblock%}
+{%block loged%}<span> {{username}}</span><a class="nav-link text-warning" href="{%url 'welcomepage' %}">Logout</a>{%endblock%}
+{%block Content%}
+<div id="main" class="container py-5 my-5">
+    <div id="'view" class="container">
+        <h1 class="text-center text-warning ">Tracks</h1>
+        <div class="d-flex justify-content-center m-5">
+            {%if trackmode == 'update' %}
+            <form  action='' method="post">
+            {%csrf_token%}
+            <div   class="form-control d-flex border-0 shadow"  >
+                <label for="query"></label>
+               {{updatetrack.as_p}}
+                <input type="hidden" name="mode" value={{mode}} hidden>
+                <input type="submit" value="Update" class="btn btn-outline-warning btn-sm mx-3 border-0">
+            </div>
+        </form>
+            {%else%}
+            <form  action='' method="post">
+            {%csrf_token%}
+           <div   class="form-control d-flex border-0 shadow"  >
+                <label for="query"></label>
+               {{addtrack.as_p}}
+                <input type="hidden" name="mode" value={{mode}} hidden>
+                <input type="submit" value="Add" class="btn btn-outline-warning btn-sm mx-2 border-0">
+            </div>
+        </form>
+            {%endif%}
+
+        </div>
+         <div>
+           <table class="table table-light shadow">
+  <thead>
+    <tr>
+      <th scope="col">Track ID</th>
+        <th scope="col">Track Name</th>
+      <th scope="col" >Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {%for  row in tracklist%}
+    <tr>
+      <td>{{row.tr_id}}</td>
+      <td>{{row.name}}</td>
+      <td>
+        <a class="btn btn-outline-warning btn-sm"  href="{%url 'DeleteTrack' trid=row.tr_id %}"  >Delete</a>
+          <a class="btn btn-outline-warning btn-sm"  href="{%url 'UpdateTrack' tid=row.tr_id %}">Update</a>
+      </td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+        </div>
+    </div>
+</div>
+{%endblock%}

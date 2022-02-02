@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from crud.views import homepage, loginpage, registerpage, welcomepage, deleteStudent, updateStudent
+from crud.views import *
+from crud.forms import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +25,8 @@ urlpatterns = [
     path('register', registerpage),
     path('', welcomepage, name='welcomepage'),
     path('home(?<stid>)', deleteStudent, name='DeletePage'),
-    path('home?<sid>', updateStudent, name='UpdatePage')
+    path('home?<sid>', UpdateStudentView.as_view(), name='UpdatePage'),
+    path('trackshome',Tracksinsertview.as_view(),name='Trackshomepage'),
+    path('trackshome(?<trid>)', deleteTrack, name='DeleteTrack'),
+    path('trackshome?<tid>', UpdateTrackView.as_view(), name='UpdateTrack'),
 ]
