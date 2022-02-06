@@ -1,1 +1,1 @@
-#### This is a simple CRUD app for ITI-Django course Day 2 + Day 3 + Day 4
+#### This is a simple CRUD app for ITI-Django course Day 2 + Day 3 + Day 4 + Day 5
