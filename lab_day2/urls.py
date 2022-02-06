@@ -14,19 +14,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from crud.views import *
 from crud.forms import *
 
+# imports for api
+from rest_framework import routers
+from myapi.views import *
+
+# create routers for api
+router = routers.DefaultRouter()
+router.register(r'students', StudentsListView)
+router.register(r'tracks', TracksListView)
+#router.register('students/<sid>',deleteStudentview, basename='students')
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('home', homepage),
-    path('login', loginpage),
-    path('register', registerpage),
-    path('', welcomepage, name='welcomepage'),
-    path('home(?<stid>)', deleteStudent, name='DeletePage'),
-    path('home?<sid>', UpdateStudentView.as_view(), name='UpdatePage'),
-    path('trackshome',Tracksinsertview.as_view(),name='Trackshomepage'),
-    path('trackshome(?<trid>)', deleteTrack, name='DeleteTrack'),
-    path('trackshome?<tid>', UpdateTrackView.as_view(), name='UpdateTrack'),
+    #path('admin/', admin.site.urls),
+    # path('home', homepage),
+    # path('login', loginpage),
+    # path('register', registerpage),
+    # path('', welcomepage, name='welcomepage'),
+    # path('home(?<stid>)', deleteStudent, name='DeletePage'),
+    # path('home?<sid>', UpdateStudentView.as_view(), name='UpdatePage'),
+    # path('trackshome',Tracksinsertview.as_view(),name='Trackshomepage'),
+    # path('trackshome(?<trid>)', deleteTrack, name='DeleteTrack'),
+    # path('trackshome?<tid>', UpdateTrackView.as_view(), name='UpdateTrack'),
+    path('students/<sid>/', studentview, name='studentView'),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+
 ]

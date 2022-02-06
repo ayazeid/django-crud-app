@@ -14,7 +14,7 @@ class Students(models.Model):
     id = models.AutoField(primary_key=True)
     fname = models.CharField(max_length=30, default='')
     lname = models.CharField(max_length=30, default='')
-    trackid = models.ForeignKey('Tracks',on_delete=models.CASCADE,default='')
+    trackid = models.ForeignKey('Tracks',on_delete=models.CASCADE,default=str(Tracks.objects.all()[0].tr_id))
 
 
 # users model
