@@ -29,16 +29,16 @@ router.register(r'tracks', TracksListView)
 #router.register('students/<sid>',deleteStudentview, basename='students')
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
-    # path('home', homepage),
-    # path('login', loginpage),
-    # path('register', registerpage),
-    # path('', welcomepage, name='welcomepage'),
-    # path('home(?<stid>)', deleteStudent, name='DeletePage'),
-    # path('home?<sid>', UpdateStudentView.as_view(), name='UpdatePage'),
-    # path('trackshome',Tracksinsertview.as_view(),name='Trackshomepage'),
-    # path('trackshome(?<trid>)', deleteTrack, name='DeleteTrack'),
-    # path('trackshome?<tid>', UpdateTrackView.as_view(), name='UpdateTrack'),
+    path('admin/', admin.site.urls),
+    path('home', homepage),
+    path('login', loginpage),
+    path('register', registerpage),
+    path('welcome', welcomepage, name='welcomepage'),
+    path('home(?<stid>)', deleteStudent, name='DeletePage'),
+    path('home?<sid>', UpdateStudentView.as_view(), name='UpdatePage'),
+    path('trackshome',Tracksinsertview.as_view(),name='Trackshomepage'),
+    path('trackshome(?<trid>)', deleteTrack, name='DeleteTrack'),
+    path('trackshome?<tid>', UpdateTrackView.as_view(), name='UpdateTrack'),
     path('students/<sid>/', studentview, name='studentView'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
